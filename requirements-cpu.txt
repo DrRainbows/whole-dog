@@ -1,0 +1,8 @@
+# Enough to run the tests, the grammar, the lexicon checks and the footage pipeline unit tests on CPU.
+numpy
+scipy
+mujoco>=3.2
+opencv-python-headless
+pytest
+# The playable game also needs: panda3d
+# GPU training (JAX + CUDA 12, MuJoCo MJX/Warp, Brax, MuJoCo Playground): see body/wsl_install.sh

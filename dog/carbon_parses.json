@@ -1,0 +1,71 @@
+{
+ "go to the fridge door, open it by tugging the rope on the door handle, and fetch me a beer": [
+  {
+   "said": "go to the fridge door",
+   "sense": "entry:walk",
+   "target": "the fridge door",
+   "to_person": false,
+   "means_of": null
+  },
+  {
+   "said": "open it",
+   "sense": "world:open",
+   "target": "the fridge door",
+   "to_person": false,
+   "means_of": null
+  },
+  {
+   "said": "by tugging the rope on the door handle",
+   "sense": "entry:tug",
+   "target": "the rope on the door handle",
+   "to_person": false,
+   "means_of": 1
+  },
+  {
+   "said": "fetch me a beer",
+   "sense": "request:retrieve",
+   "target": "a beer",
+   "to_person": true,
+   "means_of": null
+  }
+ ],
+ "could you go see what's in the kitchen and bring back whatever you find": [
+  {
+   "said": "go see what's in the kitchen",
+   "sense": "request:hunt",
+   "target": "the kitchen",
+   "to_person": false,
+   "means_of": null
+  },
+  {
+   "said": "bring back whatever you find",
+   "sense": "sequence:bring_gift",
+   "target": "whatever you find",
+   "to_person": true,
+   "means_of": null
+  }
+ ],
+ "hey, settle down, lie on your mat and stay there": [
+  {
+   "said": "settle down",
+   "sense": "request:settle",
+   "target": null,
+   "to_person": false,
+   "means_of": null
+  },
+  {
+   "said": "lie on your mat",
+   "sense": "request:place",
+   "target": "your mat",
+   "to_person": false,
+   "means_of": null
+  },
+  {
+   "said": "stay there",
+   "sense": "request:stay",
+   "target": null,
+   "to_person": false,
+   "means_of": null
+  }
+ ]
+}

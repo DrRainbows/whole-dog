@@ -1,0 +1,8 @@
+We are building a procedural dog for a video game: two particular real dogs (a Labrador and a Belgian Malinois). Design:
+- low level: motor skills learned in a physics simulator (stand, walk, trot, gallop, sit, lie down, get up, fall and recover, shake off, etc.);
+- a "router" that decides which named behaviour/regime is in play from the dog's drives, physiology, senses and the other dog/handler, learned from home video of these two dogs (we track keypoints with DeepLabCut, label regimes with a vision-language model, train a classifier, then learn regime sequences);
+- requests from the player are goals the dog may decline (final say).
+
+List the works most relevant to this, 2015-2026, as a table: work (authors, year, venue) | what they built | what worked | what failed or was hard | what we should take | what we should avoid. Include at least: Han et al. "Lifelike agility and play in quadrupedal robots" (Tencent, Nature Machine Intelligence 2024), Peng et al. 2020 (imitating animals), AMP 2021, ASE 2022, CALM 2023, PULSE 2023, MaskedMimic 2024, DReCon 2019, MANN 2018, Neural State Machine 2019, DeepPhase 2022, Walk Like Dogs 2025, Agent-to-Sim 2025, Keypoint-MoSeq 2024, B-SOiD 2021, VAME 2022, MuJoCo Playground 2025, and any game shipped with a learned or physics-driven animal. Be accurate about what each paper actually did; say "not sure" rather than invent.
+
+Then answer: (1) Is there prior work that already learns an animal's behaviour-selection policy (when each behaviour happens) from video of specific individuals? (2) What is the most proven path for the low-level motor layer for a dog on a single RTX 3090? (3) What is the riskiest part of our design and the cheapest experiment that would expose it?

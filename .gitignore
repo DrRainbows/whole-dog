@@ -1,0 +1,26 @@
+# Never commit data, footage or trained weights
+body/data/
+body/refs*/
+runs/
+footage/library/
+footage/models/
+footage/standin/
+footage/raw_photos/
+dog-lexicon/rivals/raw/
+dog-lexicon/blind-check/blind/
+dog-lexicon/blind-check/match/
+identity-test/results/
+*.npz
+*.pt
+*.pkl
+*.h5
+*.ckpt
+*.bvh
+MUJOCO_LOG.TXT
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+.DS_Store

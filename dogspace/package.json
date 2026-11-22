@@ -1,0 +1,12 @@
+{
+  "name": "dogspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A dog made of parameters, shaped by its owner's recognition instead of by description.",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "sheet": "node tools/sheet.js",
+    "sensitivity": "node tools/sensitivity.js"
+  }
+}

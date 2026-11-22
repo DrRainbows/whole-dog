@@ -1,0 +1,27 @@
+{
+ "about": "A 28 kg dog's muscles for dog_anat.xml (make_muscles.py dog). Main-swing strength per joint group in N m; out-of-plane hinges get a share of it. Fixed 2026-11-21 before the anat_dog run.",
+ "sources": {
+  "hindlimb": "Williams SB, Usherwood JR, Jespers K, Channon AJ, Wilson AM (2009) Exploring the mechanical basis for acceleration: pelvic limb locomotor function during accelerations in racing greyhounds. J Exp Biol 212:550-565, doi:10.1242/jeb.018093, Fig. 9: peak net extensor moments at high acceleration in a 28.5 kg greyhound, hip ~40, stifle ~25, tarsus ~45 N m (inverse dynamics). Strength here = 1.4 x those peaks (a gallop runs muscles below their isometric force; 1.3-1.5x).",
+  "check": "Ellis RG, Rankin JW, Hutchinson JR (2018) Front Bioeng Biotechnol 6:162, doi:10.3389/fbioe.2018.00162, Table 2: gastrocnemius PCSA 38.4 cm2, Fmax 925 N; at a ~4.5 cm calcaneal lever ~42 N m from that muscle alone, consistent with 63 N m for all tarsal extensors. Table 4: sit-to-stand peaks hip 13.6, stifle 4.8, tarsus 12.9 N m (27 kg greyhound).",
+  "forelimb_spine_neck_head": "ESTIMATES: no published inverse dynamics found for the canine forelimb at maximal effort, nor for spine, neck or head. Forelimb set from the hindlimb counterparts (shoulder as hip; elbow between stifle and tarsus, the triceps being large; carpus below tarsus, its stance load carried largely by palmar ligaments and flexor tendons) and the forelimb's share of support (about 60% of body weight standing; up to 4.5x body weight per forelimb landing from a jump, Pfau T et al. 2011 Vet J). The thoracic sling (scapula on the thorax) carries that support.",
+  "activation": "Zajac FE (1989) Crit Rev Biomed Eng 17:359-411: activation 10 ms, deactivation 40 ms (the default of published quadruped musculoskeletal models, Ellis 2018 included). One time constant here (a target move activates one muscle of a pair and relaxes the other): 25 ms.",
+  "speed": "No per-joint gallop speeds are published, and galloping dogs reach theirs partly through tendon recoil, which this body lacks. Each joint's zero-force speed is 3x the fastest the capture's dog reached (99.9th percentile of the main swing over the capture), so the body can still do what the dog did; at that speed its muscles keep about 29% of their strength (Hill, curvature 0.25)."
+ },
+ "act_tau": 0.025,
+ "hill_k": 0.25,
+ "ecc": 1.5,
+ "speed_rule": {"times_capture_p999": 3.0, "min_rad_s": 15.0},
+ "groups": {
+  "hip":      {"tau": 56.0, "side": 0.5, "twist": 0.3, "basis": "measured: 1.4 x 40"},
+  "stifle":   {"tau": 35.0, "side": 0.2, "twist": 0.2, "basis": "measured: 1.4 x 25"},
+  "tarsus":   {"tau": 63.0, "side": 0.2, "twist": 0.2, "basis": "measured: 1.4 x 45"},
+  "shoulder": {"tau": 56.0, "side": 0.5, "twist": 0.3, "basis": "estimate: as the hip"},
+  "elbow":    {"tau": 40.0, "side": 0.2, "twist": 0.2, "basis": "estimate: between stifle and tarsus"},
+  "carpus":   {"tau": 30.0, "side": 0.2, "twist": 0.2, "basis": "estimate: below tarsus (ligaments carry stance)"},
+  "scapula":  {"tau": 80.0, "side": 0.5, "twist": 0.3, "basis": "estimate: the thoracic sling carries 60% of body weight"},
+  "lumbar":   {"tau": 100.0, "side": 0.5, "twist": 0.3, "basis": "estimate"},
+  "thoracic": {"tau": 100.0, "side": 0.5, "twist": 0.3, "basis": "estimate"},
+  "neck":     {"tau": 30.0, "side": 0.5, "twist": 0.3, "basis": "estimate"},
+  "head":     {"tau": 12.0, "side": 0.5, "twist": 0.3, "basis": "estimate"}
+ }
+}

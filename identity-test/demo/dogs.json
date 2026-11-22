@@ -1,0 +1,5 @@
+[
+ {"id": "dogA", "name": "Dog A (stand-in, side view)", "breed": "demo", "target": true},
+ {"id": "dogB", "name": "Dog B (stand-in, oblique view)", "breed": "demo", "target": false},
+ {"id": "dogC", "name": "Dog C (stand-in, gait disorder)", "breed": "demo", "target": false}
+]

@@ -1,0 +1,22 @@
+{
+ "Spine": "ZXY",
+ "Spine1": "YXZ",
+ "Neck": "YXZ",
+ "Head": "ZYX",
+ "LeftShoulder": "XYZ",
+ "LeftArm": "YXZ",
+ "LeftForeArm": "ZYX",
+ "LeftHand": "ZXY",
+ "RightShoulder": "XYZ",
+ "RightArm": "YXZ",
+ "RightForeArm": "ZYX",
+ "RightHand": "ZXY",
+ "LeftUpLeg": "YXZ",
+ "LeftLeg": "ZYX",
+ "LeftFoot": "ZXY",
+ "RightUpLeg": "ZYX",
+ "RightLeg": "ZYX",
+ "RightFoot": "ZXY",
+ "Tail": "ZYX",
+ "Tail1": "XZY"
+}

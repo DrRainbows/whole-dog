@@ -1,0 +1,73 @@
+# Requirements
+
+Each requirement has a stable ID. Automated tests carry the ID in their names, so a requirements tool can trace them. The same rows are in [requirements.csv](requirements.csv).
+
+Status: **pass** (verified, evidence given) · **pending** (waiting on footage or people) · **parked** (deferred by a decision).
+
+## Decision and rules
+| ID | Requirement | Verification | Status | Evidence |
+|---|---|---|---|---|
+| DEC-001 | Build the measurement first: find where a particular dog's identity lives before building the game dog | Decision record with fixed criteria and an independent attack | pass | [decisions/001-first-build.md](decisions/001-first-build.md), Revision 1 |
+| M1 | In side-view footage, at least 80% of frames have all four paws tracked at confidence ≥ 0.5 | `run.py measure`, field `paws_all_tracked` | pass on stand-ins, pending on your dogs | Stand-in clips: 1.00, 0.95, 0.98 |
+| M1b | Footfall times within 2 frames of footfalls marked by hand, on 3 clips of your dogs | Mark footfalls by hand and compare | pending | Needs footage |
+| M2 | Clap and whistle onsets found within 20 ms; head-turn latency recovered within 2 frames | `footage/tests` | pass | `test_REQ_M2_*` (synthetic data) |
+| M3 | Test design: ≥ 8 judges who know the dog and built nothing; ≥ 10 independent clips per dog per carrier from different days; no target clip reused for a judge; 3 same-breed foils; 20 trials per carrier | Trial planner tests and the clip count in `make_manifest.py` | planner pass, clips and judges pending | `REQ-T1`–`T6` |
+| M4 | A carrier holds identity if accuracy ≥ 40% and it beats chance (exact one-sided binomial, α 0.05, Holm-corrected) | `identity-test/analyze.py` | pass on simulated judges, pending on real ones | Simulated: reactions 67% held, trotting 30.5% and sound 26% didn't |
+| M5 | Reaction clips compared with trotting clips, paired across judges; the winner decides the build | `identity-test/analyze.py` | pass on simulated judges, pending on real ones | Wilcoxon p = 0.004 on simulated data |
+
+## Footage pipeline (`footage/`)
+| ID | Requirement | Verification | Status | Evidence |
+|---|---|---|---|---|
+| P1 | Track 39 dog keypoints in phone video on the local GPU (DeepLabCut SuperAnimal-Quadruped) | `run.py track` | pass | 3 stand-in clips, about 3 s of GPU time each |
+| N1 | Remove size, position and walking direction, so judges can't use them | `test_REQ_N1` | pass | |
+| N2 | Optional canonical skeleton: every dog redrawn with the same bone lengths | `test_REQ_N2` | pass | |
+| N3 | Fill tracking gaps up to 0.25 s; leave longer gaps empty | `test_REQ_N3` | pass | |
+| D1 | Render movement-only dot clips playable in a browser | `test_REQ_D1` | pass | |
+| G1 | On a synthetic trot: stride frequency within 3%, touchdowns within 1.5 frames, duty factor within 0.08 | `test_REQ_M1_footfalls...` | pass | Known bias: a swing that slows smoothly to zero inflates duty by about 0.07 |
+| G2 | On a real 10 s trot at ≥ 30 fps, all four paws give the same stride frequency within 5% | `run.py measure` on your footage | pending | The stand-in failed this: 12 fps, a very slow walk, one or two steps per paw |
+
+## Identity test (`identity-test/`)
+| ID | Requirement | Verification | Status | Evidence |
+|---|---|---|---|---|
+| T1 | Exactly one option per trial comes from the target dog | `test/plan.test.js` | pass | |
+| T2 | Foils are the same breed as the target | `test/plan.test.js` | pass | |
+| T3 | A judge never sees the same target clip twice | `test/plan.test.js` | pass | |
+| T4 | The target appears in each position equally often (within 4 points) | `test/plan.test.js` | pass | |
+| T5 | A judge's plan is reproducible from their code and differs between judges | `test/plan.test.js` | pass | |
+| T6 | Running short of clips is reported, not hidden | `test/plan.test.js` | pass | |
+| T7 | The page runs offline from the folder, plays muted looping clips, and saves results as CSV | Headless browser screenshots | pass | `identity-test/demo/shot-*.png` |
+
+## Footage to collect (you)
+| ID | Requirement | Status |
+|---|---|---|
+| F1 | Film side-on with the phone fixed at the dog's shoulder height, landscape, 60 fps, at least 10 s per pass, both directions, on at least 3 different days | pending |
+| F2 | Reaction clips: a clap or whistle from out of sight while the dog stands or lies, with the camera running 3 s before and after | pending |
+| F3 | Foils: at least 3 other Labradors and 3 other Malinois, filmed the same way | pending |
+| F4 | Judges: at least 8 people who know your dogs and haven't seen or built anything in this project | pending |
+
+## The dog's grammar (`dog/grammar.py`, 21 Nov)
+| ID | Requirement | Verification | Status | Evidence |
+|---|---|---|---|---|
+| GR1 | Every lexicon entry compiles to a body: modes, manner, target, and a class (reflexive R/X, planned D/O/L, state P); every request to an accept-set; every sequence step to an entry | `grammar.py build` | pass | 316 entries (84 reflexive, 38 planned, 194 states), 79 requests, 39 sequences; 1 step left unresolved ("send cue", not a body) |
+| GR2 | The posture graph written from words covers far more real regime changes than random graphs of the same size | `grammar.py audit` against the capture and the two dogs | pass | 78% capture, 80% dogs vs 33–34% random (p ≤ 0.004); postures only 50% and 65% vs 24–25% |
+| GR3 | A string of words is parsed into bodies and priced link by link in bits (body, habit, meaning, skill, state); ambiguous words are settled by meaning first, then price | `grammar.py price` | pass | "shake": shake-off when wet, give-paw when dry; "down": sploot when hot, platz when keyed up, hip-down when tired |
+| GR4 | A link the body has no route for is routed through the postures between; forced straight across, the physics may fall | `train/online_dog.py --say` | pass | The Malinois, an insisted "jump" from platz: taken straight across, fell 0.8 s later |
+| GR5 | The words' "no direct link" predicts falls when a change is forced, and not when it is routed | `make_links.py`, `train/eval_links.py --seeds --term topple`, `dog/link_test_repeated.py` | not yet | Not supported as stated. Dog strength against old strength, 8 seeds, judged per link: with the pre-registered fall (relative to the reference) the forbid/allow gap doubled (4.9 → 10.2 points, p = 0.10), but that fall counts lagging behind a fast rise. With an absolute fall (thorax rolled past 60°), the links the words forbid are harder by about 10 points forced or routed, at either strength (p 0.06–0.24); routing barely protects, and dog strength adds nothing. Falls concentrate in a few start poses rising from down, failing on every seed. Tired (capacity 0.65, a tracker that practised tired): the forbid/allow gap widens (topple: routed +8.2 points, p = 0.006, exploratory); the pre-registered T2–T4 fail (p 0.13–0.27); routing still doesn't protect |
+| GR6 | Three modes: endemic (alone), social (a person present: the dog's own sentences), guided (heard words, final say weighs the hardest link) | `dog/brain.py`, online runs | pass | The Lab's *bring gift*, the Malinois's *middle* and *weave*; "get the beer" done, the fridge sentence declined |
+| GR7 | Free speech is read into the lexicon's own ids by Gemini Carbon; the grammar does all pricing | `grammar.py price --carbon` | pass | Three sentences read correctly (fridge and beer; kitchen hunt and bring back; settle, mat, stay) |
+| GR8 | Per-dog cue reliabilities and request numbers set by the person who knows the dogs | You | pending | Placeholders: the Lab's "get" was a 36% yes, where you describe it as reliable |
+| GR10 | Practising the grammar's sentences improves tracking of sentences never seen | `make_grammar_library.py`, `eval_track.py` on held-out seeds | pass | uni_gram 86.6% full vs uni_mm2 82.5% on 24 unseen episodes; capture 85.5% vs 89.0% |
+| GR9 | Recovery: back on its feet from any fall, including from the side | Physics (`train/diag_right.py`), online (`online_dog.py --reflex`), [dog/words_dog_strength_reflex.mp4](dog/words_dog_strength_reflex.mp4) | pass | `scramble_up`, the lexicon's own reflex, at dog strength, retrained on the proper standard: 100% on its feet from the side (0.44 s) and from the back (0.46 s) over 2,048 falls, still up at 3 s 100% (old motors 94–99% in 0.7 s, up at 3 s 88–93%). Online on the dog-strength body: 3 of 3 real falls back on its feet in 0.7–1.1 s, and the plan resumed (the Malinois's insisted jump from platz fell at 13.2 s and was up at 14.3 s). Online falls are now real falls (thorax rolled or hips dropped); a dog that only lags is re-planned |
+| GR11 | Joints with known movement constraints: each joint's rest pose, axes and range from the capture; hinge joints nearly in plane; the ranges act as ligaments; the motion itself unchanged | `body/anat.py fit`, `check`, `convert` | pass | Body positions identical (0.00 mm). Single-axis share: elbows 98–100%, stifles 92%, carpus 83–94%, hocks 89–95% (raw: up to 72° of out-of-plane stifle bending, hinges wound to −1065°). Held at a range: 0.22% of capture hinge-frames |
+| GR12 | Muscles: activation lag from the brain, the limb's own stiffness at once, a dog's strength falling with joint speed; the ligaments take the rest; the policy senses its own drive | `train/dog_track.py` (`muscles`, `obs_drive`), `train/smoke_anat.py`, `wsl_eval_all.sh anat_dog` | pass | At a dog's strength the tracker completes 93.5% of capture episodes (old strength 95.3%) and 91.8% of held-out sentences; muscles at their limit 1.4% of physics steps; after a forced ask the ligaments carry about 4× as much as at the old strength |
+
+## The game (`game/`, 21 Nov)
+| ID | Requirement | Verification | Status | Evidence |
+|---|---|---|---|---|
+| RT1 | The whole dog (brain, words, matcher, physics body, reflex) runs in real time on one CPU core, matching the training environment | `train/parity_cpu.py`, `online_dog.py --cpu`, `game/test_runtime.py` | pass | Observation and policy match the JAX environment to 4 × 10⁻⁷. The research loop on the CPU takes 5 ms per 20 ms step, and the game runtime 2.8 ms natively on Windows. Same falls, rises and brain decisions as the GPU loop |
+| PLAY1 | A playable build: talk to the dogs, walk among them, shove them, watch them decide, fall and get up (Panda3D) | `game/dog_game.py --selftest` (one dog, and `--dogs lab,mal`), [game/demo_both.mp4](game/demo_both.mp4) | pass | The offscreen self-test drives every control. Both dogs share one physics world (6.1 ms per step), each with her own brain; words go to both, or to one by name. Demos: the insisted jump and recovery, fetching the beer, both dogs |
+
+## Parked
+| ID | Item | Why |
+|---|---|---|
+| X1 | The procedural dog and owner-driven evolution ([dogspace/](dogspace/)) | Decision 001, Revision 1: naive evolution can't converge in this many dimensions, and the method has prior art. It may come back later as preference learning on a small basis fitted to real footage. |

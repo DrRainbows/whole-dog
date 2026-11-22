@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which Dog</title>
+<style>
+  :root { --bg: #f6f5f2; --fg: #1d1c1a; --muted: #6b6862; --card: #ffffff; --line: #dcd8d0; --accent: #2f5d8a; --ok: #2e7d4f; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #161615; --fg: #ecebe7; --muted: #a29f98; --card: #201f1d; --line: #3a3834; --accent: #8db4dc; --ok: #6cc08f; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  p.lead { color: var(--muted); margin: 0 0 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  label { display: block; margin: 8px 0; }
+  input[type=text] { width: 100%; max-width: 320px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); font: inherit; }
+  button { font: inherit; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--bg); cursor: pointer; }
+  button.secondary { background: transparent; color: var(--accent); }
+  button:disabled { opacity: .5; cursor: default; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .option { position: relative; border: 2px solid var(--line); border-radius: 10px; overflow: hidden; background: #000; cursor: pointer; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; }
+  .option:hover, .option:focus-visible { border-color: var(--accent); outline: none; }
+  .option video { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .option .tag { position: absolute; left: 8px; top: 6px; color: #fff; font-weight: 600; text-shadow: 0 1px 2px #000; }
+  .option.audio { background: var(--card); color: var(--fg); flex-direction: column; gap: 10px; }
+  .prompt { font-size: 1.15rem; margin: 0 0 12px; }
+  .meta { color: var(--muted); font-size: .9rem; margin: 0 0 12px; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 0 0 16px; overflow: hidden; }
+  .bar > div { height: 100%; background: var(--accent); width: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  .hidden { display: none; }
+  @media (max-width: 560px) { .grid { gap: 8px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Which dog?</h1>
+  <p class="lead" id="lead">You'll see a few short clips at a time and pick the dog you know. Some show only moving dots, some only sound. Go with your first impression.</p>
+
+  <section id="setup" class="card">
+    <label>Your initials or a code (no full names needed)
+      <input id="judge" type="text" autocomplete="off">
+    </label>
+    <p class="meta">Which of these dogs do you know well?</p>
+    <div id="knows"></div>
+    <p class="meta" id="plan"></p>
+    <button id="start" disabled>Start</button>
+  </section>
+
+  <section id="trial" class="hidden">
+    <div class="bar"><div id="progress"></div></div>
+    <p class="meta" id="trialMeta"></p>
+    <p class="prompt" id="prompt"></p>
+    <div class="grid" id="options"></div>
+  </section>
+
+  <section id="done" class="card hidden">
+    <h2>Done, thank you</h2>
+    <p class="meta">Send the results file to the person who asked you to do this.</p>
+    <button id="download">Download results (CSV)</button>
+    <button id="restart" class="secondary">Start over</button>
+  </section>
+</main>
+<script src="plan.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

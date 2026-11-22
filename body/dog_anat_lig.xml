@@ -1,0 +1,213 @@
+<mujoco model="dog_anat_lig">
+  <compiler angle="degree" autolimits="true" settotalmass="28"/>
+  <option timestep="0.004" solver="Newton" integrator="implicitfast" iterations="4" ls_iterations="6"/>
+  <default>
+    <joint damping="0.5" armature="0.01"/>
+    <geom density="1000" rgba="0.82 0.72 0.55 1" condim="3" friction="0.9 0.02 0.01" contype="2" conaffinity="0"/>
+    <default class="paw"><geom contype="2" conaffinity="0" friction="1.0 0.02 0.01" rgba="0.2 0.2 0.2 1"/></default>
+    <default class="strong"><joint damping="2" armature="0.02"/><position kp="300" kv="8" forcerange="-200 200"/></default>
+    <default class="limb"><joint damping="0.8" armature="0.01"/><position kp="120" kv="3" forcerange="-80 80"/></default>
+    <default class="passive"><joint stiffness="1.5" damping="0.08" armature="0.002"/></default>
+    <default class="lig"><joint stiffness="30.0" damping="1.5" armature="0.01"/></default>
+  </default>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1=".25 .26 .28" rgb2=".32 .33 .35" width="256" height="256"/>
+    <material name="grid" texture="grid" texrepeat="8 8"/>
+  </asset>
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" diffuse="0.9 0.9 0.9"/>
+    <geom name="floor" type="plane" size="20 20 0.1" material="grid" contype="1" conaffinity="2"/>
+      <body name="Hips" pos="0.0000 0.0000 0.0000">
+        <freejoint name="root"/>
+        <geom type="capsule" fromto="0 0 0 0.0598 -0.0767 0.0479" size="0.075"/>
+        <geom type="capsule" fromto="0 0 0 0.0598 -0.0767 -0.0479" size="0.075"/>
+        <geom type="capsule" fromto="0 0 0 0.0684 -0.0072 0.0000" size="0.075"/>
+        <body name="Spine" pos="0.0000 0.0000 0.0000" quat="-0.082523 0.060321 0.011809 0.994692">
+          <joint name="Spine_a1" axis="-0.000000 0.085273 -0.996358" range="-79.3 40.0" class="strong"/>
+          <joint name="Spine_a2" axis="0.000000 -0.996358 -0.085273" range="-32.0 27.6" class="strong"/>
+          <joint name="Spine_a3" axis="-1.000000 -0.000000 0.000000" range="-15.1 14.3" class="strong"/>
+          <geom type="capsule" fromto="0 0 0 0.1900 0.0000 0.0000" size="0.085"/>
+          <body name="Spine1" pos="0.1900 0.0000 0.0000" quat="0.996559 0.007790 0.054745 -0.061739">
+            <joint name="Spine1_a1" axis="0.060771 0.237594 -0.969462" range="-70.9 76.1" class="strong"/>
+            <joint name="Spine1_a2" axis="-0.027190 -0.970502 -0.239553" range="-55.6 58.8" class="strong"/>
+            <joint name="Spine1_a3" axis="-0.997781 0.040917 -0.052519" range="-30.7 39.1" class="strong"/>
+            <geom type="capsule" fromto="0 0 0 0.2250 0.0060 0.0000" size="0.080"/>
+            <geom type="capsule" fromto="0 0 0 0.1980 0.0370 0.0430" size="0.080"/>
+            <geom type="capsule" fromto="0 0 0 0.1980 0.0370 -0.0430" size="0.080"/>
+            <body name="Neck" pos="0.2250 0.0060 0.0000" quat="0.998288 -0.011779 0.014962 -0.055303">
+              <joint name="Neck_a1" axis="0.001355 -0.632239 0.774772" range="-70.7 115.9" class="limb"/>
+              <joint name="Neck_a2" axis="-0.001661 0.774770 0.632241" range="-56.3 55.8" class="limb"/>
+              <joint name="Neck_a3" axis="-0.999998 -0.002143 0.000000" range="-20.0 31.5" class="limb"/>
+              <geom type="capsule" fromto="0 0 0 0.1400 0.0003 0.0000" size="0.045"/>
+              <body name="Head" pos="0.1400 0.0003 0.0000" quat="0.653664 0.734791 0.175638 0.044230">
+                <joint name="Head_a1" axis="0.218803 0.775033 0.592831" range="-75.3 77.2" class="limb"/>
+                <joint name="Head_a2" axis="0.641549 0.343510 -0.685869" range="-47.5 47.2" class="limb"/>
+                <joint name="Head_a3" axis="-0.735215 0.530400 -0.422060" range="-51.8 46.2" class="limb"/>
+                <geom type="capsule" fromto="0 0 0 0.1700 0.0000 0.0000" size="0.050"/>
+              </body>
+            </body>
+            <body name="LeftShoulder" pos="0.1980 0.0370 0.0430" quat="-0.424288 0.790155 0.428032 0.111461">
+              <joint name="LeftShoulder_a1" axis="0.000000 0.752459 0.658640" range="-37.8 37.0" class="strong"/>
+              <joint name="LeftShoulder_a2" axis="-0.000000 0.658640 -0.752459" range="-18.8 15.3" class="strong"/>
+              <joint name="LeftShoulder_a3" axis="-1.000000 0.000000 0.000000" range="-10.6 10.6" class="strong"/>
+              <geom type="capsule" fromto="0 0 0 0.0800 0.0000 0.0000" size="0.035"/>
+              <body name="LeftArm" pos="0.0800 0.0000 0.0000" quat="-0.070280 0.711254 -0.502030 0.486974">
+                <joint name="LeftArm_a1" axis="-0.694215 -0.010053 -0.719698" range="-74.0 99.6" class="strong"/>
+                <joint name="LeftArm_a2" axis="0.713991 -0.136052 -0.686809" range="-48.0 44.0" class="strong"/>
+                <joint name="LeftArm_a3" axis="-0.091012 -0.990651 0.101627" range="-25.2 47.7" class="strong"/>
+                <geom type="capsule" fromto="0 0 0 0.1520 0.0000 0.0000" size="0.030"/>
+                <body name="LeftForeArm" pos="0.1520 0.0000 0.0000" quat="0.856922 0.057375 -0.045695 -0.510201">
+                  <joint name="LeftForeArm_a1" axis="0.000005 0.393541 -0.919307" range="-67.3 104.5" class="limb"/>
+                  <joint name="LeftForeArm_a2" axis="0.000030 -0.919307 -0.393541" range="-2.1 2.0" class="lig"/>
+                  <joint name="LeftForeArm_a3" axis="-1.000000 -0.000026 -0.000017" range="-2.0 2.1" class="lig"/>
+                  <geom type="capsule" fromto="0 0 0 0.1780 0.0000 0.0000" size="0.022"/>
+                  <body name="LeftHand" pos="0.1780 0.0000 0.0000" quat="0.986249 0.011683 -0.130264 -0.101035">
+                    <joint name="LeftHand_a1" axis="-0.000028 0.398159 0.917317" range="-46.3 108.8" class="limb"/>
+                    <joint name="LeftHand_a2" axis="-0.000009 0.917317 -0.398159" range="-16.1 18.1" class="lig"/>
+                    <joint name="LeftHand_a3" axis="-1.000000 -0.000019 -0.000022" range="-10.0 6.8" class="lig"/>
+                    <geom type="capsule" fromto="0 0 0 0.0720 0.0000 0.0000" size="0.022"/>
+                    <site name="LeftHand_paw" pos="0.0720 0.0000 0.0000"/>
+                    <geom name="LeftHand_pad" type="sphere" pos="0.0720 0.0000 0.0000" size="0.022" class="paw"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+            <body name="RightShoulder" pos="0.1980 0.0370 -0.0430" quat="0.764884 -0.403197 0.143995 0.481300">
+              <joint name="RightShoulder_a1" axis="0.011859 0.774504 -0.632457" range="-51.6 37.0" class="strong"/>
+              <joint name="RightShoulder_a2" axis="0.014519 -0.632569 -0.774368" range="-16.2 17.3" class="strong"/>
+              <joint name="RightShoulder_a3" axis="-0.999824 -0.000000 -0.018747" range="-10.5 10.7" class="strong"/>
+              <geom type="capsule" fromto="0 0 0 0.0800 0.0000 0.0015" size="0.035"/>
+              <body name="RightArm" pos="0.0800 0.0000 0.0015" quat="0.747625 -0.207657 -0.457750 0.434051">
+                <joint name="RightArm_a1" axis="-0.915829 -0.026858 0.400670" range="-123.9 83.1" class="strong"/>
+                <joint name="RightArm_a2" axis="-0.400739 0.125253 -0.907590" range="-55.8 40.4" class="strong"/>
+                <joint name="RightArm_a3" axis="-0.025809 -0.991761 -0.125473" range="-63.7 27.4" class="strong"/>
+                <geom type="capsule" fromto="0 0 0 0.1520 0.0000 0.0000" size="0.030"/>
+                <body name="RightForeArm" pos="0.1520 0.0000 0.0000" quat="0.838651 -0.109071 0.097612 -0.524632">
+                  <joint name="RightForeArm_a1" axis="0.000089 -0.362053 -0.932158" range="-73.4 114.1" class="limb"/>
+                  <joint name="RightForeArm_a2" axis="-0.000062 -0.932158 0.362053" range="-2.0 2.0" class="lig"/>
+                  <joint name="RightForeArm_a3" axis="-1.000000 0.000026 -0.000106" range="-2.0 2.0" class="lig"/>
+                  <geom type="capsule" fromto="0 0 0 0.1780 0.0000 0.0000" size="0.022"/>
+                  <body name="RightHand" pos="0.1780 0.0000 0.0000" quat="0.995630 0.003658 0.035306 -0.086377">
+                    <joint name="RightHand_a1" axis="0.000004 0.774756 -0.632260" range="-96.3 41.0" class="limb"/>
+                    <joint name="RightHand_a2" axis="0.000003 -0.632260 -0.774756" range="-23.9 20.5" class="lig"/>
+                    <joint name="RightHand_a3" axis="-1.000000 0.000001 -0.000005" range="-7.9 11.4" class="lig"/>
+                    <geom type="capsule" fromto="0 0 0 0.0720 0.0000 0.0000" size="0.022"/>
+                    <site name="RightHand_paw" pos="0.0720 0.0000 0.0000"/>
+                    <geom name="RightHand_pad" type="sphere" pos="0.0720 0.0000 0.0000" size="0.022" class="paw"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="LeftUpLeg" pos="0.0598 -0.0767 0.0479" quat="-0.449455 0.179371 0.039111 0.874235">
+          <joint name="LeftUpLeg_a1" axis="-0.977822 0.045834 0.204360" range="-128.4 70.7" class="strong"/>
+          <joint name="LeftUpLeg_a2" axis="0.190522 0.599886 0.777070" range="-52.4 38.4" class="strong"/>
+          <joint name="LeftUpLeg_a3" axis="-0.086976 0.798771 -0.595315" range="-48.4 31.3" class="strong"/>
+          <geom type="capsule" fromto="0 0 0 0.1600 0.0000 0.0000" size="0.035"/>
+          <body name="LeftLeg" pos="0.1600 0.0000 0.0000" quat="0.780785 0.037129 0.140581 0.607646">
+            <joint name="LeftLeg_a1" axis="0.010842 0.384574 0.923031" range="-36.0 104.2" class="limb"/>
+            <joint name="LeftLeg_a2" axis="0.968157 0.226847 -0.105886" range="-19.8 16.6" class="lig"/>
+            <joint name="LeftLeg_a3" axis="-0.250108 0.894787 -0.369868" range="-8.7 5.5" class="lig"/>
+            <geom type="capsule" fromto="0 0 0 0.1800 0.0000 0.0000" size="0.022"/>
+            <body name="LeftFoot" pos="0.1800 0.0000 0.0000" quat="0.916647 -0.006852 -0.069024 0.393634">
+              <joint name="LeftFoot_a1" axis="-0.333155 0.000305 0.942872" range="-158.5 36.2" class="limb"/>
+              <joint name="LeftFoot_a2" axis="0.942872 -0.000031 0.333155" range="-19.0 31.0" class="lig"/>
+              <joint name="LeftFoot_a3" axis="0.000131 1.000000 -0.000277" range="-12.3 39.9" class="lig"/>
+              <geom type="capsule" fromto="0 0 0 0.0000 -0.1080 0.0000" size="0.022"/>
+              <site name="LeftFoot_paw" pos="0.0000 -0.1080 0.0000"/>
+              <geom name="LeftFoot_pad" type="sphere" pos="0.0000 -0.1080 0.0000" size="0.022" class="paw"/>
+            </body>
+          </body>
+        </body>
+        <body name="RightUpLeg" pos="0.0598 -0.0767 -0.0479" quat="-0.465007 0.007790 0.028687 0.884808">
+          <joint name="RightUpLeg_a1" axis="-0.992871 0.119014 -0.006605" range="-106.1 113.1" class="strong"/>
+          <joint name="RightUpLeg_a2" axis="-0.068349 -0.523052 0.849556" range="-84.8 36.1" class="strong"/>
+          <joint name="RightUpLeg_a3" axis="0.097654 0.843950 0.527457" range="-35.3 43.8" class="strong"/>
+          <geom type="capsule" fromto="0 0 0 0.1600 0.0000 0.0000" size="0.035"/>
+          <body name="RightLeg" pos="0.1600 0.0000 0.0000" quat="0.795846 -0.033968 -0.045578 0.602825">
+            <joint name="RightLeg_a1" axis="-0.017748 -0.318958 0.947603" range="-40.6 108.4" class="limb"/>
+            <joint name="RightLeg_a2" axis="0.961235 0.255380 0.103963" range="-16.3 19.4" class="lig"/>
+            <joint name="RightLeg_a3" axis="-0.275158 0.912714 0.302061" range="-6.4 7.5" class="lig"/>
+            <geom type="capsule" fromto="0 0 0 0.1800 0.0000 0.0000" size="0.022"/>
+            <body name="RightFoot" pos="0.1800 0.0000 0.0000" quat="0.884236 0.015492 -0.006148 0.466743">
+              <joint name="RightFoot_a1" axis="-0.525481 -0.000319 -0.850805" range="-44.3 140.0" class="limb"/>
+              <joint name="RightFoot_a2" axis="-0.850805 0.000556 0.525481" range="-19.8 27.8" class="lig"/>
+              <joint name="RightFoot_a3" axis="0.000305 1.000000 -0.000564" range="-31.5 14.5" class="lig"/>
+              <geom type="capsule" fromto="0 0 0 0.0000 -0.1080 0.0000" size="0.022"/>
+              <site name="RightFoot_paw" pos="0.0000 -0.1080 0.0000"/>
+              <geom name="RightFoot_pad" type="sphere" pos="0.0000 -0.1080 0.0000" size="0.022" class="paw"/>
+            </body>
+          </body>
+        </body>
+        <body name="Tail" pos="0.0684 -0.0072 0.0000">
+          <joint name="Tail_z" axis="0 0 1" class="passive"/>
+          <joint name="Tail_y" axis="0 1 0" class="passive"/>
+          <joint name="Tail_x" axis="1 0 0" class="passive"/>
+          <geom type="capsule" fromto="0 0 0 0.1200 0.0000 0.0000" size="0.018"/>
+          <body name="Tail1" pos="0.1200 0.0000 0.0000">
+            <joint name="Tail1_x" axis="1 0 0" class="passive"/>
+            <joint name="Tail1_z" axis="0 0 1" class="passive"/>
+            <joint name="Tail1_y" axis="0 1 0" class="passive"/>
+            <geom type="capsule" fromto="0 0 0 0.1200 0.0000 0.0000" size="0.012"/>
+          </body>
+        </body>
+      </body>
+  </worldbody>
+  <actuator>
+    <position name="Spine_a1" joint="Spine_a1" class="strong"/>
+    <position name="Spine_a2" joint="Spine_a2" class="strong"/>
+    <position name="Spine_a3" joint="Spine_a3" class="strong"/>
+    <position name="Spine1_a1" joint="Spine1_a1" class="strong"/>
+    <position name="Spine1_a2" joint="Spine1_a2" class="strong"/>
+    <position name="Spine1_a3" joint="Spine1_a3" class="strong"/>
+    <position name="Neck_a1" joint="Neck_a1" class="limb"/>
+    <position name="Neck_a2" joint="Neck_a2" class="limb"/>
+    <position name="Neck_a3" joint="Neck_a3" class="limb"/>
+    <position name="Head_a1" joint="Head_a1" class="limb"/>
+    <position name="Head_a2" joint="Head_a2" class="limb"/>
+    <position name="Head_a3" joint="Head_a3" class="limb"/>
+    <position name="LeftShoulder_a1" joint="LeftShoulder_a1" class="strong"/>
+    <position name="LeftShoulder_a2" joint="LeftShoulder_a2" class="strong"/>
+    <position name="LeftShoulder_a3" joint="LeftShoulder_a3" class="strong"/>
+    <position name="LeftArm_a1" joint="LeftArm_a1" class="strong"/>
+    <position name="LeftArm_a2" joint="LeftArm_a2" class="strong"/>
+    <position name="LeftArm_a3" joint="LeftArm_a3" class="strong"/>
+    <position name="LeftForeArm_a1" joint="LeftForeArm_a1" class="limb"/>
+    <position name="LeftForeArm_a2" joint="LeftForeArm_a2" class="limb"/>
+    <position name="LeftForeArm_a3" joint="LeftForeArm_a3" class="limb"/>
+    <position name="LeftHand_a1" joint="LeftHand_a1" class="limb"/>
+    <position name="LeftHand_a2" joint="LeftHand_a2" class="limb"/>
+    <position name="LeftHand_a3" joint="LeftHand_a3" class="limb"/>
+    <position name="RightShoulder_a1" joint="RightShoulder_a1" class="strong"/>
+    <position name="RightShoulder_a2" joint="RightShoulder_a2" class="strong"/>
+    <position name="RightShoulder_a3" joint="RightShoulder_a3" class="strong"/>
+    <position name="RightArm_a1" joint="RightArm_a1" class="strong"/>
+    <position name="RightArm_a2" joint="RightArm_a2" class="strong"/>
+    <position name="RightArm_a3" joint="RightArm_a3" class="strong"/>
+    <position name="RightForeArm_a1" joint="RightForeArm_a1" class="limb"/>
+    <position name="RightForeArm_a2" joint="RightForeArm_a2" class="limb"/>
+    <position name="RightForeArm_a3" joint="RightForeArm_a3" class="limb"/>
+    <position name="RightHand_a1" joint="RightHand_a1" class="limb"/>
+    <position name="RightHand_a2" joint="RightHand_a2" class="limb"/>
+    <position name="RightHand_a3" joint="RightHand_a3" class="limb"/>
+    <position name="LeftUpLeg_a1" joint="LeftUpLeg_a1" class="strong"/>
+    <position name="LeftUpLeg_a2" joint="LeftUpLeg_a2" class="strong"/>
+    <position name="LeftUpLeg_a3" joint="LeftUpLeg_a3" class="strong"/>
+    <position name="LeftLeg_a1" joint="LeftLeg_a1" class="limb"/>
+    <position name="LeftLeg_a2" joint="LeftLeg_a2" class="limb"/>
+    <position name="LeftLeg_a3" joint="LeftLeg_a3" class="limb"/>
+    <position name="LeftFoot_a1" joint="LeftFoot_a1" class="limb"/>
+    <position name="LeftFoot_a2" joint="LeftFoot_a2" class="limb"/>
+    <position name="LeftFoot_a3" joint="LeftFoot_a3" class="limb"/>
+    <position name="RightUpLeg_a1" joint="RightUpLeg_a1" class="strong"/>
+    <position name="RightUpLeg_a2" joint="RightUpLeg_a2" class="strong"/>
+    <position name="RightUpLeg_a3" joint="RightUpLeg_a3" class="strong"/>
+    <position name="RightLeg_a1" joint="RightLeg_a1" class="limb"/>
+    <position name="RightLeg_a2" joint="RightLeg_a2" class="limb"/>
+    <position name="RightLeg_a3" joint="RightLeg_a3" class="limb"/>
+    <position name="RightFoot_a1" joint="RightFoot_a1" class="limb"/>
+    <position name="RightFoot_a2" joint="RightFoot_a2" class="limb"/>
+    <position name="RightFoot_a3" joint="RightFoot_a3" class="limb"/>
+  </actuator>
+</mujoco>
